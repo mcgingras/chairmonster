@@ -72,7 +72,7 @@
         var x, y
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
-            pressure = Math.min(e.touches[0]["force"],pMin)
+            pressure = Math.max(e.touches[0]["force"],pMin)
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
@@ -104,7 +104,7 @@
         var x, y
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
-            pressure = Math.min(e.touches[0]["force"],pMin)
+            pressure = Math.max(e.touches[0]["force"],pMin)
             pressureI.innerHTML = pressure;
           }
           var rect = e.target.getBoundingClientRect();
@@ -147,7 +147,7 @@
         var x, y
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
-            pressure = Math.min(e.touches[0]["force"],pMin)
+            pressure = Math.max(e.touches[0]["force"],pMin)
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
