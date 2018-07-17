@@ -5,6 +5,12 @@
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
+
+    @font-face {
+      font-family: "Apercu";
+      src: url("./apercu_regular_pro.otf")
+    }
+
     body {
       position: absolute;
       margin: 0;
@@ -12,45 +18,70 @@
       top: 0;
       width: 100%;
       height: 100%;
-      font-family: sans-serif;
+      font-family: "Apercu";
       font-size: 13px;
       padding: 1em;
       box-sizing: border-box;
+      background-color: #F1F1F1;
     }
     h1 {
-      margin-top: 0;
-      color: #ccc;
+      color: #151515;
+      text-align: center;
+      font-size: 40px;
+      margin-top: 10px;
+      letter-spacing: 4px;
     }
     canvas {
       /*position: absolute;*/
       display: block;
       width: 500px;
       height: 500px;
-      border: 1px solid black;
+      border-radius: 4px;
       margin: 0 auto;
-      left: 0;
-      top: 0;
+      background-color: #FFF;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.10), 0 3px 5px rgba(0,0,0,0.10);
     }
 
     button{
       outline: none;
-      border-radius: 0;
+      border: none;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.10);
+
     }
+
+    .button-container{
+      width: 500px;
+      display: flex;
+      margin: 0 auto;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .button-container button{
+      width: 45%;
+      height: 30px;
+      display: block;
+      float: left;
+      margin-top: 20px;
+      background: white;
+      border-radius: 4px;
+    }
+
 </style>
   </head>
 
   <body>
-    <h1>Mixi v2 ft. GAN</h1>
-    <button id="draw" style="background-color: #CCC">Draw</button>
-    <button id="erase">Erase</button>
-    <p id="pressure">0</p>
+    <h1>MIXI</h1>
     <canvas>Sorry, your browser is too old for this demo.</canvas>
+    <div class="button-container">
+      <button id="draw" style="background-color: #4F9AF7; color: #FFF">Draw</button>
+       <button id="erase">Erase</button>
+    </div>
 
 
     <script>
     // https://github.com/quietshu/apple-pencil-safari-api-test/blob/gh-pages/index.html
     var pMin = .62; // min width for pen on iPad devices...
-    var pressureI = document.getElementById('pressure')
 
     var canvas = document.querySelectorAll('canvas')[0]
     var context = canvas.getContext('2d')
@@ -63,8 +94,8 @@
     var erase = document.getElementById('erase')
     var draw  = document.getElementById('draw')
     var clicked = false;
-    erase.addEventListener('click', () => { clicked = true; erase.style.backgroundColor = '#CCC'; draw.style.backgroundColor = "#FFF" })
-    draw.addEventListener('click', () => { clicked = false; draw.style.backgroundColor = '#CCC'; erase.style.backgroundColor = "#FFF" })
+    erase.addEventListener('click', () => { clicked = true; erase.style.backgroundColor = '#4F9AF7'; draw.style.backgroundColor = "#FFF"; draw.style.color = "#000"; erase.style.color = "#FFF" })
+    draw.addEventListener('click', () => { clicked = false; draw.style.backgroundColor = '#4F9AF7'; erase.style.backgroundColor = "#FFF"; draw.style.color = "#FFF"; erase.style.color = "#000" })
 
 
     ;['touchstart', 'mousedown'].forEach(function (ev) {
@@ -106,7 +137,6 @@
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
             pressure = Math.max(e.touches[0]["force"],pMin)
-            pressureI.innerHTML = pressure;
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
@@ -115,7 +145,6 @@
           pressure = 1.0
           x = e.offsetX
           y = e.offsetY
-          pressureI.innerHTML = x
           // x = e.pageX * 2
           // y = e.pageY * 2
         }
