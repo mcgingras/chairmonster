@@ -31,11 +31,17 @@
       left: 0;
       top: 0;
     }
+
+    button{
+      outline: none;
+      border-radius: 0;
+    }
 </style>
   </head>
 
   <body>
     <h1>Mixi v2 ft. GAN</h1>
+    <button id="draw" style="background-color: #CCC">Draw</button>
     <button id="erase">Erase</button>
     <canvas>Sorry, your browser is too old for this demo.</canvas>
 
@@ -43,7 +49,9 @@
     <script>
     // https://github.com/quietshu/apple-pencil-safari-api-test/blob/gh-pages/index.html
     var erase = document.getElementById('erase')
+    var draw  = document.getElementById('draw')
     var clicked = false;
+    var pMin = .7; // min width for pen on iPad devices...
     var canvas = document.querySelectorAll('canvas')[0]
     var context = canvas.getContext('2d')
     var lineWidth = 0
@@ -52,9 +60,8 @@
     canvas.width = 500
     canvas.height = 500
 
-    erase.addEventListener('click', () => {
-      clicked = !clicked;
-    })
+    erase.addEventListener('click', () => { clicked = true; erase.style.backgroundColor = '#CCC'; draw.style.backgroundColor = "#FFF" })
+    draw.addEventListener('click', () => { clicked = false; draw.style.backgroundColor = '#CCC'; erase.style.backgroundColor = "#FFF" })
 
 
     ;['touchstart', 'mousedown'].forEach(function (ev) {
@@ -63,7 +70,7 @@
         var x, y
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
-            pressure = e.touches[0]["force"]
+            pressure = Math.min(e.touches[0]["force"],pMin)
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
@@ -95,7 +102,7 @@
         var x, y
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
-            pressure = e.touches[0]["force"]
+            pressure = Math.min(e.touches[0]["force"],pMin)
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
@@ -136,7 +143,7 @@
         var x, y
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
-            pressure = e.touches[0]["force"]
+            pressure = Math.min(e.touches[0]["force"],pMin)
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
