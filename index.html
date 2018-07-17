@@ -43,6 +43,7 @@
     <h1>Mixi v2 ft. GAN</h1>
     <button id="draw" style="background-color: #CCC">Draw</button>
     <button id="erase">Erase</button>
+    <p id="pressure"></p>
     <canvas>Sorry, your browser is too old for this demo.</canvas>
 
 
@@ -50,6 +51,7 @@
     // https://github.com/quietshu/apple-pencil-safari-api-test/blob/gh-pages/index.html
     var erase = document.getElementById('erase')
     var draw  = document.getElementById('draw')
+    var pressureI = document.getElementById('pressure')
     var clicked = false;
     var pMin = .7; // min width for pen on iPad devices...
     var canvas = document.querySelectorAll('canvas')[0]
@@ -103,6 +105,7 @@
         if (e.touches && e.touches[0] && typeof e.touches[0]["force"] !== "undefined") {
           if (e.touches[0]["force"] > 0) {
             pressure = Math.min(e.touches[0]["force"],pMin)
+            pressureI.innerHTML = pressure;
           }
           var rect = e.target.getBoundingClientRect();
           var x = e.touches[0].pageX - rect.left;
@@ -111,6 +114,7 @@
           pressure = 1.0
           x = e.offsetX
           y = e.offsetY
+          pressureI.innerHTML = x
           // x = e.pageX * 2
           // y = e.pageY * 2
         }
