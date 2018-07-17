@@ -22,9 +22,12 @@
       color: #ccc;
     }
     canvas {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      /*position: absolute;*/
+      display: block;
+      width: 500px;
+      height: 500px;
+      border: 1px solid black;
+      margin: 0 auto;
       left: 0;
       top: 0;
     }
@@ -33,17 +36,27 @@
 
   <body>
     <h1>Mixi v2 ft. GAN</h1>
+    <button id="erase">Erase</button>
     <canvas>Sorry, your browser is too old for this demo.</canvas>
+
 
     <script>
     // https://github.com/quietshu/apple-pencil-safari-api-test/blob/gh-pages/index.html
+    var erase = document.getElementById('erase')
+    var clicked = false;
     var canvas = document.querySelectorAll('canvas')[0]
     var context = canvas.getContext('2d')
     var lineWidth = 0
     var isMousedown = false
     var points = []
-    canvas.width = window.innerWidth * 2
-    canvas.height = window.innerHeight * 2
+    canvas.width = 500
+    canvas.height = 500
+
+    erase.addEventListener('click', () => {
+
+    })
+
+
     ;['touchstart', 'mousedown'].forEach(function (ev) {
       canvas.addEventListener(ev, function (e) {
         var pressure = 0.1
@@ -52,12 +65,14 @@
           if (e.touches[0]["force"] > 0) {
             pressure = e.touches[0]["force"]
           }
-          x = e.touches[0].pageX * 2
-          y = e.touches[0].pageY * 2
+          // x = e.touches[0].pageX * 2
+          // y = e.touches[0].pageY * 2
         } else {
           pressure = 1.0
-          x = e.pageX * 2
-          y = e.pageY * 2
+          x = e.offsetX
+          y = e.offsetY
+          // x = e.pageX * 2
+          // y = e.pageY * 2
         }
         isMousedown = true
         // lineWidth = (pressure * 50 * 0.8 + lineWidth * 0.2)
@@ -85,8 +100,10 @@
           y = e.touches[0].pageY * 2
         } else {
           pressure = 1.0
-          x = e.pageX * 2
-          y = e.pageY * 2
+          x = e.offsetX
+          y = e.offsetY
+          // x = e.pageX * 2
+          // y = e.pageY * 2
         }
         lineWidth = (Math.log(pressure + 1) * 40 * 0.4 + lineWidth * 0.6)
         points.push({
@@ -123,8 +140,10 @@
           y = e.touches[0].pageY * 2
         } else {
           pressure = 1.0
-          x = e.pageX * 2
-          y = e.pageY * 2
+          x = e.offsetX
+          y = e.offsetY
+          // x = e.pageX * 2
+          // y = e.pageY * 2
         }
         isMousedown = false
         context.strokeStyle = 'black'
